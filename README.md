@@ -19,7 +19,6 @@
   --branco: #ffffff;
   --sombra: 0 8px 32px rgba(0,0,0,0.25);
 }
-
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
@@ -35,35 +34,29 @@ body {
   overflow-x: hidden;
 }
 
-/* ========== HEADER ========== */
+/* ===== HEADER ===== */
 header {
   text-align: center;
-  padding: 28px 20px 16px;
+  padding: 24px 20px 12px;
   position: relative;
 }
-
 .header-decoration {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 6px;
-  background: repeating-linear-gradient(90deg, var(--amarelo) 0px, var(--amarelo) 20px, var(--laranja) 20px, var(--laranja) 40px, var(--vermelho) 40px, var(--vermelho) 60px, var(--verde-claro) 60px, var(--verde-claro) 80px);
+  position: absolute; top: 0; left: 0; right: 0; height: 6px;
+  background: repeating-linear-gradient(90deg,
+    var(--amarelo) 0px, var(--amarelo) 20px,
+    var(--laranja) 20px, var(--laranja) 40px,
+    var(--vermelho) 40px, var(--vermelho) 60px,
+    var(--verde-claro) 60px, var(--verde-claro) 80px);
 }
-
 header h1 {
   font-family: 'Fredoka One', cursive;
-  font-size: clamp(2.2rem, 6vw, 4rem);
+  font-size: clamp(2rem, 6vw, 3.6rem);
   color: var(--amarelo);
   text-shadow: 3px 3px 0 var(--verde-escuro), 5px 5px 0 rgba(0,0,0,0.3);
   letter-spacing: 2px;
   animation: titleBounce 0.8s ease-out;
 }
-
-header p.subtitle {
-  font-size: 1.1rem;
-  color: rgba(255,255,255,0.85);
-  margin-top: 4px;
-  font-weight: 600;
-}
+header p.subtitle { font-size: 1rem; color: rgba(255,255,255,0.85); margin-top: 4px; font-weight: 600; }
 
 @keyframes titleBounce {
   0% { transform: scale(0.5) rotate(-5deg); opacity: 0; }
@@ -71,34 +64,90 @@ header p.subtitle {
   100% { transform: scale(1) rotate(0deg); opacity: 1; }
 }
 
-/* ========== MAIN CONTAINER ========== */
+/* ===== LAYOUT PRINCIPAL ===== */
 main {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 0 16px 60px;
+  padding: 0 14px 60px;
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 20px;
+  align-items: start;
+}
+@media (max-width: 780px) {
+  main { grid-template-columns: 1fr; }
+  .sidebar { order: -1; }
 }
 
-/* ========== TABS ========== */
+/* ===== SIDEBAR - JOGADORES ===== */
+.sidebar { display: flex; flex-direction: column; gap: 16px; }
+
+.jogadores-box {
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+  border: 2px solid rgba(245,197,24,0.4);
+  border-radius: 20px;
+  padding: 18px;
+  backdrop-filter: blur(6px);
+}
+.jogadores-box h2 {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.2rem;
+  color: var(--amarelo);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.jogador-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 50px;
+  padding: 8px 14px;
+  margin-bottom: 8px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  animation: popIn 0.3s ease;
+  border: 2px solid rgba(255,255,255,0.1);
+}
+.jogador-badge.responsavel {
+  background: linear-gradient(90deg, rgba(245,197,24,0.3), rgba(245,197,24,0.1));
+  border-color: rgba(245,197,24,0.5);
+}
+.jogador-badge .animal-aposta {
+  margin-left: auto;
+  font-size: 1.3rem;
+}
+.badge-coroa { color: var(--amarelo); font-size: 1.1rem; }
+
+.empty-jogadores {
+  text-align: center;
+  color: rgba(255,255,255,0.4);
+  font-size: 0.9rem;
+  padding: 10px;
+}
+
+/* ===== TABS ===== */
+.tabs-wrap { grid-column: 1 / -1; }
 .tabs {
   display: flex;
   gap: 8px;
   justify-content: center;
-  margin-bottom: 28px;
+  margin-bottom: 20px;
   flex-wrap: wrap;
 }
-
 .tab-btn {
   font-family: 'Baloo 2', cursive;
   font-size: 1rem;
   font-weight: 800;
-  padding: 10px 24px;
+  padding: 10px 22px;
   border: 3px solid rgba(255,255,255,0.3);
   border-radius: 50px;
   background: rgba(255,255,255,0.1);
   color: white;
   cursor: pointer;
   transition: all 0.2s;
-  backdrop-filter: blur(4px);
 }
 .tab-btn:hover { background: rgba(255,255,255,0.2); transform: translateY(-2px); }
 .tab-btn.active {
@@ -109,297 +158,82 @@ main {
   transform: translateY(-2px);
 }
 
-/* ========== PANELS ========== */
+/* ===== PANELS ===== */
+.content-area { min-width: 0; }
 .panel { display: none; animation: fadeIn 0.35s ease; }
 .panel.active { display: block; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes popIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-/* ========== SORTEIO PANEL ========== */
-.sorteio-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 28px;
-}
-
-.drum-wrapper {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-
-.drum {
-  width: 240px;
-  height: 240px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #5d4e37, #2c1f0e);
-  border: 8px solid var(--dourado);
-  box-shadow: 0 0 0 4px rgba(0,0,0,0.3), inset 0 8px 20px rgba(255,255,255,0.1), 0 20px 50px rgba(0,0,0,0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: transform 0.15s;
-  position: relative;
-  overflow: hidden;
-}
-
-.drum::before {
-  content: '';
-  position: absolute;
-  top: 8%; left: 8%;
-  width: 30%; height: 30%;
-  background: radial-gradient(circle, rgba(255,255,255,0.25), transparent);
-  border-radius: 50%;
-}
-
-.drum-inner {
-  font-size: 5rem;
-  transition: transform 0.3s;
-  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
-  user-select: none;
-}
-
-.drum:hover { transform: scale(1.04); }
-.drum:active { transform: scale(0.97); }
-.drum.spinning .drum-inner { animation: spin 0.1s linear infinite; }
-
-@keyframes spin {
-  0% { transform: rotate(-15deg) scale(0.8); opacity: 0.5; }
-  50% { transform: rotate(15deg) scale(1.1); opacity: 1; }
-  100% { transform: rotate(-15deg) scale(0.8); opacity: 0.5; }
-}
-
-.drum-label {
-  font-family: 'Fredoka One', cursive;
-  font-size: 1rem;
-  color: var(--dourado);
-  text-align: center;
-  letter-spacing: 1px;
-}
-
-/* Resultado */
-.resultado-box {
-  background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
-  border: 3px solid var(--amarelo);
-  border-radius: 24px;
-  padding: 28px 44px;
-  text-align: center;
-  min-width: 320px;
-  backdrop-filter: blur(10px);
-  box-shadow: var(--sombra), 0 0 0 1px rgba(255,255,255,0.1);
-  transition: all 0.4s;
-}
-
-.resultado-box.hidden { opacity: 0.4; filter: blur(2px); }
-.resultado-box.revealed { opacity: 1; filter: none; animation: revealPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
-
-@keyframes revealPop {
-  0% { transform: scale(0.7); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-.resultado-emoji { font-size: 5rem; display: block; margin-bottom: 8px; }
-.resultado-nome {
-  font-family: 'Fredoka One', cursive;
-  font-size: 2.4rem;
-  color: var(--amarelo);
-  text-shadow: 2px 2px 0 var(--verde-escuro);
-}
-.resultado-grupo {
-  font-size: 1.1rem;
-  color: rgba(255,255,255,0.7);
-  margin-top: 6px;
-}
-.resultado-numeros {
-  margin-top: 12px;
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-.num-badge {
-  background: var(--verde-escuro);
-  border: 2px solid var(--dourado);
-  border-radius: 12px;
-  padding: 4px 14px;
-  font-weight: 800;
-  font-size: 1.1rem;
-  color: var(--amarelo);
-}
-
-.btn-sortear {
-  font-family: 'Fredoka One', cursive;
-  font-size: 1.6rem;
-  padding: 18px 56px;
-  background: linear-gradient(135deg, var(--amarelo), var(--laranja));
-  color: var(--verde-escuro);
-  border: none;
-  border-radius: 60px;
-  cursor: pointer;
-  box-shadow: 0 6px 24px rgba(240,126,22,0.5), 0 0 0 4px rgba(245,197,24,0.2);
-  transition: all 0.2s;
-  letter-spacing: 1px;
-}
-.btn-sortear:hover { transform: translateY(-4px) scale(1.03); box-shadow: 0 12px 32px rgba(240,126,22,0.6); }
-.btn-sortear:active { transform: translateY(0) scale(0.97); }
-.btn-sortear:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-
-/* Histórico */
-.historico-wrap {
-  width: 100%;
-  max-width: 600px;
-}
-.historico-titulo {
-  font-family: 'Fredoka One', cursive;
-  font-size: 1.3rem;
-  color: var(--amarelo);
-  margin-bottom: 10px;
-  text-align: center;
-}
-.historico-lista {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  justify-content: center;
-  min-height: 44px;
-}
-.hist-item {
-  background: rgba(255,255,255,0.1);
-  border: 2px solid rgba(255,255,255,0.2);
-  border-radius: 50px;
-  padding: 5px 16px;
-  font-size: 1rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  animation: popIn 0.3s ease;
-}
-@keyframes popIn { from { transform: scale(0); } to { transform: scale(1); } }
-
-/* ========== TABELA PANEL ========== */
-.tabela-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 14px;
-}
-
-.animal-card {
-  background: linear-gradient(135deg, rgba(255,255,255,0.13), rgba(255,255,255,0.05));
-  border: 2px solid rgba(255,255,255,0.18);
-  border-radius: 20px;
-  padding: 16px 12px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.2s;
-  backdrop-filter: blur(4px);
-  position: relative;
-  overflow: hidden;
-}
-
-.animal-card::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(135deg, transparent, rgba(255,255,255,0.05));
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-
-.animal-card:hover {
-  transform: translateY(-6px) scale(1.03);
-  border-color: var(--amarelo);
-  box-shadow: 0 12px 32px rgba(0,0,0,0.3), 0 0 0 2px rgba(245,197,24,0.3);
-}
-.animal-card:hover::before { opacity: 1; }
-
-.animal-card.destaque {
-  border-color: var(--amarelo);
-  background: linear-gradient(135deg, rgba(245,197,24,0.25), rgba(245,197,24,0.08));
-  box-shadow: 0 0 0 3px rgba(245,197,24,0.4), 0 8px 24px rgba(0,0,0,0.2);
-  animation: cardGlow 1s ease-in-out infinite alternate;
-}
-
-@keyframes cardGlow {
-  from { box-shadow: 0 0 0 3px rgba(245,197,24,0.4), 0 8px 24px rgba(0,0,0,0.2); }
-  to { box-shadow: 0 0 0 6px rgba(245,197,24,0.7), 0 12px 32px rgba(245,197,24,0.2); }
-}
-
-.card-emoji { font-size: 3rem; margin-bottom: 6px; display: block; }
-.card-grupo {
-  font-family: 'Fredoka One', cursive;
-  font-size: 0.85rem;
-  color: var(--amarelo);
-  background: var(--verde-escuro);
-  border-radius: 50px;
-  padding: 2px 10px;
-  display: inline-block;
-  margin-bottom: 4px;
-}
-.card-nome {
-  font-weight: 800;
-  font-size: 1rem;
-  color: white;
-  display: block;
-  margin-bottom: 4px;
-}
-.card-nums {
-  font-size: 0.78rem;
-  color: rgba(255,255,255,0.6);
-  font-weight: 600;
-}
-
-/* ========== APOSTAR PANEL ========== */
-.apostar-section {
-  max-width: 700px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.apostar-titulo {
-  font-family: 'Fredoka One', cursive;
-  font-size: 1.8rem;
-  color: var(--amarelo);
-  text-align: center;
-  text-shadow: 2px 2px 0 var(--verde-escuro);
-}
-
-.escolha-animal {
-  background: rgba(255,255,255,0.08);
+/* ===== APOSTAR PANEL ===== */
+.apostar-section { display: flex; flex-direction: column; gap: 18px; }
+.section-box {
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.04));
+  border: 2px solid rgba(255,255,255,0.15);
   border-radius: 20px;
   padding: 20px;
-  border: 2px solid rgba(255,255,255,0.15);
+  backdrop-filter: blur(4px);
 }
-
-.escolha-animal h3 {
-  font-weight: 800;
+.section-box h3 {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.2rem;
+  color: var(--amarelo);
   margin-bottom: 14px;
-  font-size: 1.1rem;
-  color: rgba(255,255,255,0.9);
 }
 
+/* Input jogador */
+.input-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.input-row label { font-weight: 800; font-size: 0.95rem; white-space: nowrap; }
+.jogo-input {
+  font-family: 'Baloo 2', cursive;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 10px 18px;
+  background: rgba(255,255,255,0.12);
+  border: 2px solid rgba(255,255,255,0.25);
+  border-radius: 50px;
+  color: white;
+  outline: none;
+  flex: 1;
+  min-width: 140px;
+  transition: border-color 0.2s;
+}
+.jogo-input::placeholder { color: rgba(255,255,255,0.4); }
+.jogo-input:focus { border-color: var(--amarelo); }
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  background: rgba(245,197,24,0.1);
+  border: 2px solid rgba(245,197,24,0.3);
+  border-radius: 14px;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+.checkbox-row input { width: 18px; height: 18px; cursor: pointer; accent-color: var(--amarelo); }
+.checkbox-row label { font-weight: 800; color: var(--amarelo); cursor: pointer; font-size: 0.95rem; }
+
+/* Mini grid animais */
 .mini-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
   gap: 8px;
 }
-
 .mini-card {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.08);
   border: 2px solid rgba(255,255,255,0.15);
   border-radius: 14px;
   padding: 8px 4px;
   text-align: center;
   cursor: pointer;
   transition: all 0.15s;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 700;
+  line-height: 1.3;
 }
-.mini-card:hover { background: rgba(255,255,255,0.2); transform: scale(1.05); }
+.mini-card:hover { background: rgba(255,255,255,0.2); transform: scale(1.06); }
 .mini-card.selecionado {
   background: linear-gradient(135deg, var(--amarelo), var(--laranja));
   border-color: var(--amarelo);
@@ -410,101 +244,177 @@ main {
 }
 .mini-card span { font-size: 1.5rem; display: block; }
 
-.apostas-lista {
-  background: rgba(255,255,255,0.08);
-  border-radius: 20px;
-  padding: 20px;
-  border: 2px solid rgba(255,255,255,0.15);
-}
-.apostas-lista h3 { font-weight: 800; margin-bottom: 14px; font-size: 1.1rem; }
-
-.aposta-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(255,255,255,0.07);
-  border-radius: 14px;
-  padding: 10px 16px;
-  margin-bottom: 8px;
-  font-weight: 700;
-  font-size: 0.95rem;
-  animation: popIn 0.3s ease;
-}
-.aposta-item .aposta-animal { display: flex; align-items: center; gap: 8px; }
-.aposta-item .btn-remover {
-  background: var(--vermelho);
-  border: none;
-  border-radius: 50%;
-  width: 28px; height: 28px;
-  color: white;
-  font-size: 1rem;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: transform 0.15s;
-}
-.aposta-item .btn-remover:hover { transform: scale(1.15); }
-
-.btn-adicionar {
+/* Botões */
+.btn {
   font-family: 'Fredoka One', cursive;
-  font-size: 1.1rem;
-  padding: 12px 32px;
-  background: linear-gradient(135deg, var(--verde-claro), var(--verde));
-  color: white;
   border: none;
   border-radius: 50px;
   cursor: pointer;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
   transition: all 0.2s;
-  width: 100%;
-  margin-top: 8px;
-}
-.btn-adicionar:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
-
-.btn-revelar {
-  font-family: 'Fredoka One', cursive;
-  font-size: 1.4rem;
-  padding: 16px 40px;
-  background: linear-gradient(135deg, var(--vermelho), #c0392b);
-  color: white;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  box-shadow: 0 6px 24px rgba(217,48,37,0.5);
-  transition: all 0.2s;
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
 }
-.btn-revelar:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(217,48,37,0.6); }
-.btn-revelar:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.btn:hover { transform: translateY(-3px); }
+.btn:active { transform: translateY(0) scale(0.97); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
 
-/* Resultado apostas */
-.resultado-apostas {
-  background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
-  border: 3px solid var(--amarelo);
-  border-radius: 24px;
-  padding: 24px;
-  display: none;
-  animation: revealPop 0.5s ease;
+.btn-verde {
+  font-size: 1.1rem; padding: 12px 28px;
+  background: linear-gradient(135deg, var(--verde-claro), var(--verde));
+  color: white;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  width: 100%; margin-top: 10px;
 }
-.resultado-apostas h3 {
-  font-family: 'Fredoka One', cursive;
-  font-size: 1.6rem;
-  color: var(--amarelo);
-  text-align: center;
+.btn-amarelo {
+  font-size: 1.5rem; padding: 16px 40px;
+  background: linear-gradient(135deg, var(--amarelo), var(--laranja));
+  color: var(--verde-escuro);
+  box-shadow: 0 6px 24px rgba(240,126,22,0.5);
+  width: 100%;
+}
+.btn-vermelho {
+  font-size: 1.4rem; padding: 16px 40px;
+  background: linear-gradient(135deg, var(--vermelho), #c0392b);
+  color: white;
+  box-shadow: 0 6px 24px rgba(217,48,37,0.5);
+  width: 100%;
+}
+.btn-cinza {
+  font-size: 0.9rem; padding: 8px 20px;
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.7);
+  border: 2px solid rgba(255,255,255,0.2);
+}
+
+/* Lista apostas */
+.aposta-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 14px;
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  animation: popIn 0.3s ease;
+}
+.aposta-item .btn-remover {
+  background: var(--vermelho); border: none; border-radius: 50%;
+  width: 26px; height: 26px; color: white; font-size: 0.9rem;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  margin-left: auto; transition: transform 0.15s; flex-shrink: 0;
+}
+.aposta-item .btn-remover:hover { transform: scale(1.2); }
+
+/* ===== RESUMO PRÉ-SORTEIO ===== */
+.resumo-box {
+  background: linear-gradient(135deg, rgba(245,197,24,0.15), rgba(245,197,24,0.05));
+  border: 3px solid rgba(245,197,24,0.5);
+  border-radius: 20px;
+  padding: 20px;
   margin-bottom: 16px;
 }
-.aposta-resultado-item {
+.resumo-box h3 {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.3rem;
+  color: var(--amarelo);
+  margin-bottom: 14px;
+  text-align: center;
+}
+.resumo-animal-item {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 10px 16px;
+  background: rgba(255,255,255,0.08);
   border-radius: 14px;
+  padding: 10px 16px;
   margin-bottom: 8px;
-  font-weight: 800;
+  border: 2px solid rgba(255,255,255,0.1);
+}
+.resumo-apostadores {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.7);
+  font-weight: 600;
+}
+.resumo-animal-nome {
+  font-weight: 900;
   font-size: 1rem;
+}
+.resumo-emoji { font-size: 2rem; }
+
+/* ===== SORTEIO PANEL ===== */
+.sorteio-container { display: flex; flex-direction: column; align-items: center; gap: 24px; }
+
+.drum {
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #5d4e37, #2c1f0e);
+  border: 8px solid var(--dourado);
+  box-shadow: 0 0 0 4px rgba(0,0,0,0.3), inset 0 8px 20px rgba(255,255,255,0.1), 0 20px 50px rgba(0,0,0,0.4);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: transform 0.15s; position: relative; overflow: hidden;
+}
+.drum::before {
+  content: ''; position: absolute; top: 8%; left: 8%;
+  width: 30%; height: 30%;
+  background: radial-gradient(circle, rgba(255,255,255,0.25), transparent);
+  border-radius: 50%;
+}
+.drum-inner {
+  font-size: 4.5rem; transition: transform 0.3s;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5)); user-select: none;
+}
+.drum:hover { transform: scale(1.04); }
+.drum:active { transform: scale(0.97); }
+.drum.spinning .drum-inner { animation: drumSpin 0.1s linear infinite; }
+@keyframes drumSpin {
+  0% { transform: rotate(-15deg) scale(0.8); opacity: 0.5; }
+  50% { transform: rotate(15deg) scale(1.1); }
+  100% { transform: rotate(-15deg) scale(0.8); opacity: 0.5; }
+}
+.drum-label { font-family: 'Fredoka One', cursive; font-size: 0.95rem; color: var(--dourado); text-align: center; }
+
+/* Resultado */
+.resultado-box {
+  background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
+  border: 3px solid var(--amarelo);
+  border-radius: 24px;
+  padding: 24px 36px;
+  text-align: center;
+  width: 100%;
+  max-width: 480px;
+  backdrop-filter: blur(10px);
+  transition: all 0.4s;
+}
+.resultado-box.hidden { opacity: 0.3; filter: blur(2px); }
+.resultado-box.revealed { animation: revealPop 0.5s cubic-bezier(0.34,1.56,0.64,1); }
+@keyframes revealPop {
+  0% { transform: scale(0.7); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.resultado-emoji { font-size: 5rem; display: block; margin-bottom: 8px; }
+.resultado-nome { font-family: 'Fredoka One', cursive; font-size: 2.2rem; color: var(--amarelo); text-shadow: 2px 2px 0 var(--verde-escuro); }
+.resultado-grupo { font-size: 1rem; color: rgba(255,255,255,0.7); margin-top: 4px; }
+.resultado-numeros { margin-top: 12px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.num-badge {
+  background: var(--verde-escuro); border: 2px solid var(--dourado);
+  border-radius: 12px; padding: 3px 12px;
+  font-weight: 800; font-size: 1rem; color: var(--amarelo);
+}
+
+/* Resultado apostas */
+.resultado-apostas-lista { width: 100%; max-width: 480px; }
+.resultado-apostas-lista h3 {
+  font-family: 'Fredoka One', cursive; font-size: 1.3rem;
+  color: var(--amarelo); text-align: center; margin-bottom: 12px;
+}
+.aposta-resultado-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 16px; border-radius: 14px; margin-bottom: 8px;
+  font-weight: 800; font-size: 0.95rem; animation: popIn 0.4s ease;
 }
 .aposta-resultado-item.ganhou {
   background: linear-gradient(90deg, rgba(37,160,80,0.4), rgba(37,160,80,0.1));
@@ -515,186 +425,113 @@ main {
   border: 2px solid rgba(255,255,255,0.1);
   opacity: 0.7;
 }
-.tag-ganhou {
-  background: var(--verde-claro);
-  color: white;
-  border-radius: 50px;
-  padding: 3px 14px;
-  font-size: 0.85rem;
+.tag-resultado {
+  margin-left: auto; border-radius: 50px; padding: 3px 12px; font-size: 0.82rem; white-space: nowrap;
 }
-.tag-perdeu {
-  background: rgba(255,255,255,0.2);
-  color: rgba(255,255,255,0.7);
-  border-radius: 50px;
-  padding: 3px 14px;
-  font-size: 0.85rem;
-}
+.tag-ganhou { background: var(--verde-claro); color: white; }
+.tag-perdeu { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.6); }
 
-/* ========== CONFETTI ========== */
-.confetti-container {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  pointer-events: none;
-  z-index: 9999;
-  overflow: hidden;
+/* ===== TABELA ===== */
+.tabela-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+.animal-card {
+  background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
+  border: 2px solid rgba(255,255,255,0.18);
+  border-radius: 18px; padding: 14px 10px; text-align: center;
+  cursor: pointer; transition: all 0.2s; backdrop-filter: blur(4px);
 }
-.confetti-piece {
-  position: absolute;
-  width: 12px; height: 12px;
-  border-radius: 2px;
-  animation: confettiFall linear forwards;
+.animal-card:hover { transform: translateY(-5px) scale(1.03); border-color: var(--amarelo); box-shadow: 0 10px 28px rgba(0,0,0,0.3); }
+.animal-card.destaque {
+  border-color: var(--amarelo);
+  background: linear-gradient(135deg, rgba(245,197,24,0.25), rgba(245,197,24,0.08));
+  animation: cardGlow 1s ease-in-out infinite alternate;
 }
+@keyframes cardGlow {
+  from { box-shadow: 0 0 0 3px rgba(245,197,24,0.4); }
+  to { box-shadow: 0 0 0 6px rgba(245,197,24,0.7); }
+}
+.card-emoji { font-size: 2.8rem; margin-bottom: 5px; display: block; }
+.card-grupo { font-family: 'Fredoka One', cursive; font-size: 0.78rem; color: var(--amarelo); background: var(--verde-escuro); border-radius: 50px; padding: 2px 9px; display: inline-block; margin-bottom: 3px; }
+.card-nome { font-weight: 800; font-size: 0.92rem; color: white; display: block; margin-bottom: 3px; }
+.card-nums { font-size: 0.72rem; color: rgba(255,255,255,0.6); font-weight: 600; }
+
+/* ===== PLACAR ===== */
+.placar-box { background: rgba(255,255,255,0.08); border-radius: 20px; padding: 20px; border: 2px solid rgba(255,255,255,0.15); }
+.placar-titulo { font-family: 'Fredoka One', cursive; font-size: 1.5rem; color: var(--amarelo); text-align: center; margin-bottom: 16px; }
+.placar-item {
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(255,255,255,0.07); border-radius: 14px;
+  padding: 10px 18px; margin-bottom: 8px; font-weight: 700; font-size: 1rem;
+}
+.placar-item:first-child { background: linear-gradient(90deg, rgba(245,197,24,0.3), rgba(245,197,24,0.05)); border: 2px solid rgba(245,197,24,0.4); }
+.placar-wins { color: var(--amarelo); font-family: 'Fredoka One', cursive; font-size: 1.2rem; }
+
+/* ===== MODAL ===== */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(6px); z-index: 1000;
+  display: none; align-items: center; justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: linear-gradient(145deg, #1a4a2a, #0d3320);
+  border: 3px solid var(--amarelo); border-radius: 28px;
+  padding: 32px; max-width: 380px; width: 92%;
+  text-align: center; animation: revealPop 0.4s ease;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+}
+.modal-emoji { font-size: 4.5rem; margin-bottom: 10px; }
+.modal h2 { font-family: 'Fredoka One', cursive; font-size: 1.8rem; color: var(--amarelo); margin-bottom: 6px; }
+.modal p { color: rgba(255,255,255,0.8); margin-bottom: 4px; }
+.modal-nums { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin: 12px 0; }
+
+/* ===== NOVA RODADA ===== */
+.nova-rodada-box { text-align: center; padding: 20px; }
+.nova-rodada-box p { color: rgba(255,255,255,0.7); margin-bottom: 16px; font-size: 1rem; }
+
+/* ===== CONFETTI ===== */
+.confetti-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; overflow: hidden; }
+.confetti-piece { position: absolute; border-radius: 2px; animation: confettiFall linear forwards; }
 @keyframes confettiFall {
   0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
   100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
 }
 
-/* ========== PLACAR ========== */
-.placar-box {
-  background: rgba(255,255,255,0.08);
-  border-radius: 20px;
-  padding: 20px;
-  border: 2px solid rgba(255,255,255,0.15);
-  max-width: 700px;
-  margin: 0 auto;
-}
-.placar-titulo {
-  font-family: 'Fredoka One', cursive;
-  font-size: 1.5rem;
-  color: var(--amarelo);
-  text-align: center;
-  margin-bottom: 16px;
-}
-.placar-lista { display: flex; flex-direction: column; gap: 8px; }
-.placar-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(255,255,255,0.07);
-  border-radius: 14px;
-  padding: 10px 18px;
-  font-weight: 700;
-  font-size: 1rem;
-}
-.placar-item:first-child { background: linear-gradient(90deg, rgba(245,197,24,0.3), rgba(245,197,24,0.05)); border: 2px solid rgba(245,197,24,0.4); }
-.placar-wins { color: var(--amarelo); font-family: 'Fredoka One', cursive; font-size: 1.2rem; }
+.empty-msg { text-align: center; color: rgba(255,255,255,0.4); font-size: 0.9rem; padding: 14px; }
 
-.btn-limpar-placar {
-  font-family: 'Fredoka One', cursive;
-  padding: 10px 28px;
-  background: rgba(255,255,255,0.1);
-  color: rgba(255,255,255,0.7);
-  border: 2px solid rgba(255,255,255,0.2);
-  border-radius: 50px;
-  cursor: pointer;
-  margin-top: 16px;
-  display: block;
-  margin-left: auto;
-  transition: all 0.2s;
+/* Aviso responsável */
+.aviso-responsavel {
+  background: linear-gradient(90deg, rgba(245,197,24,0.2), rgba(245,197,24,0.05));
+  border: 2px solid rgba(245,197,24,0.5);
+  border-radius: 14px; padding: 12px 16px;
+  font-size: 0.9rem; color: var(--amarelo); font-weight: 700;
+  text-align: center; margin-bottom: 8px;
 }
-.btn-limpar-placar:hover { background: rgba(255,255,255,0.2); }
 
-.empty-msg {
-  text-align: center;
+/* Step indicator */
+.step-indicator {
+  display: flex; gap: 8px; justify-content: center;
+  margin-bottom: 20px; flex-wrap: wrap;
+}
+.step {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 0.85rem; font-weight: 700;
   color: rgba(255,255,255,0.4);
-  font-size: 1rem;
-  padding: 20px;
 }
-
-/* ========== MODAL ========== */
-.modal-overlay {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.7);
-  backdrop-filter: blur(6px);
-  z-index: 1000;
-  display: none;
-  align-items: center;
-  justify-content: center;
+.step.done { color: var(--verde-claro); }
+.step.active { color: var(--amarelo); }
+.step-num {
+  width: 26px; height: 26px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem; font-weight: 900;
+  background: rgba(255,255,255,0.1);
 }
-.modal-overlay.open { display: flex; }
-.modal {
-  background: linear-gradient(145deg, #1a4a2a, #0d3320);
-  border: 3px solid var(--amarelo);
-  border-radius: 28px;
-  padding: 36px;
-  max-width: 420px;
-  width: 92%;
-  text-align: center;
-  animation: revealPop 0.4s ease;
-  box-shadow: 0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.1);
-}
-.modal-emoji { font-size: 5rem; margin-bottom: 12px; }
-.modal h2 { font-family: 'Fredoka One', cursive; font-size: 2rem; color: var(--amarelo); margin-bottom: 8px; }
-.modal p { color: rgba(255,255,255,0.8); margin-bottom: 6px; font-size: 1rem; }
-.modal-nums { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 14px 0; }
-.btn-fechar-modal {
-  font-family: 'Fredoka One', cursive;
-  font-size: 1.1rem;
-  padding: 12px 36px;
-  background: var(--amarelo);
-  color: var(--verde-escuro);
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  margin-top: 12px;
-  transition: all 0.2s;
-}
-.btn-fechar-modal:hover { transform: scale(1.05); }
-
-/* ========== INPUT JOGADOR ========== */
-.jogador-input-wrap {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  margin-bottom: 8px;
-}
-.jogador-input-wrap label { font-weight: 700; font-size: 0.95rem; white-space: nowrap; }
-.jogador-input {
-  font-family: 'Baloo 2', cursive;
-  font-size: 1rem;
-  font-weight: 700;
-  padding: 8px 16px;
-  background: rgba(255,255,255,0.12);
-  border: 2px solid rgba(255,255,255,0.25);
-  border-radius: 50px;
-  color: white;
-  outline: none;
-  flex: 1;
-  transition: border-color 0.2s;
-}
-.jogador-input::placeholder { color: rgba(255,255,255,0.4); }
-.jogador-input:focus { border-color: var(--amarelo); }
-
-/* ========== RESPONSIVO ========== */
-@media (max-width: 600px) {
-  .resultado-box { min-width: unset; padding: 20px 20px; }
-  .tabela-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
-  .mini-grid { grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); }
-}
-
-/* Starfield animation */
-.star {
-  position: fixed;
-  border-radius: 50%;
-  background: white;
-  opacity: 0;
-  animation: twinkle linear infinite;
-  pointer-events: none;
-  z-index: 0;
-}
-@keyframes twinkle {
-  0%, 100% { opacity: 0; transform: scale(0.5); }
-  50% { opacity: 0.4; transform: scale(1); }
-}
+.step.done .step-num { background: var(--verde-claro); color: white; }
+.step.active .step-num { background: var(--amarelo); color: var(--verde-escuro); }
+.step-arrow { color: rgba(255,255,255,0.25); font-size: 0.8rem; }
 </style>
 </head>
 <body>
-
 <div class="confetti-container" id="confettiContainer"></div>
-
-<!-- Stars -->
-<div id="stars"></div>
 
 <header>
   <div class="header-decoration"></div>
@@ -702,190 +539,362 @@ main {
   <p class="subtitle">🌟 A diversão da família — onde estiver! 🌟</p>
 </header>
 
-<main>
-  <!-- TABS -->
+<div style="max-width:1100px;margin:0 auto;padding:0 14px;">
   <div class="tabs">
-    <button class="tab-btn active" onclick="showPanel('sorteio')">🎰 Sortear</button>
-    <button class="tab-btn" onclick="showPanel('apostar')">🃏 Apostar</button>
-    <button class="tab-btn" onclick="showPanel('tabela')">📋 Tabela</button>
-    <button class="tab-btn" onclick="showPanel('placar')">🏆 Placar</button>
+    <button class="tab-btn active" onclick="showTab('apostar', this)">🃏 Apostar</button>
+    <button class="tab-btn" onclick="showTab('sorteio', this)">🎰 Sortear</button>
+    <button class="tab-btn" onclick="showTab('tabela', this)">📋 Tabela</button>
+    <button class="tab-btn" onclick="showTab('placar', this)">🏆 Placar</button>
   </div>
+</div>
 
-  <!-- ===== SORTEIO PANEL ===== -->
-  <div class="panel active" id="panel-sorteio">
-    <div class="sorteio-container">
-      <div class="drum-wrapper">
-        <div class="drum" id="drumEl" onclick="iniciarSorteio()">
-          <div class="drum-inner" id="drumEmoji">🎰</div>
-        </div>
-        <div class="drum-label">CLIQUE NA URNA PARA SORTEAR!</div>
-      </div>
+<main>
+  <!-- ===== SIDEBAR ===== -->
+  <div class="sidebar" style="order:2">
 
-      <button class="btn-sortear" id="btnSortear" onclick="iniciarSorteio()">
-        🎲 GIRAR A URNA!
-      </button>
-
-      <div class="resultado-box hidden" id="resultadoBox">
-        <span class="resultado-emoji" id="resEmoji">🎰</span>
-        <div class="resultado-nome" id="resNome">—</div>
-        <div class="resultado-grupo" id="resGrupo">—</div>
-        <div class="resultado-numeros" id="resNumeros"></div>
-      </div>
-
-      <div class="historico-wrap">
-        <div class="historico-titulo">🕐 Últimos sorteios</div>
-        <div class="historico-lista" id="historicoLista">
-          <span class="empty-msg" style="font-size:0.9rem">Nenhum sorteio ainda</span>
-        </div>
+    <div class="jogadores-box">
+      <h2>👥 Jogadores da Rodada</h2>
+      <div id="jogadoresLista">
+        <div class="empty-jogadores">Nenhum jogador ainda.<br>Adicione apostas!</div>
       </div>
     </div>
+
+    <div class="jogadores-box" id="historicoBox" style="display:none">
+      <h2>🕐 Últimos Sorteios</h2>
+      <div id="historicoLista"></div>
+    </div>
+
   </div>
 
-  <!-- ===== APOSTAR PANEL ===== -->
-  <div class="panel" id="panel-apostar">
-    <div class="apostar-section">
-      <div class="apostar-titulo">🃏 Faça suas apostas!</div>
+  <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+  <div class="content-area" style="order:1">
 
-      <div class="escolha-animal" style="padding-bottom:12px">
-        <div class="jogador-input-wrap">
-          <label>👤 Jogador:</label>
-          <input type="text" class="jogador-input" id="nomeJogador" placeholder="Seu nome..." maxlength="20">
+    <!-- ===== APOSTAR ===== -->
+    <div class="panel active" id="panel-apostar">
+      <div class="apostar-section">
+
+        <div class="step-indicator">
+          <div class="step active" id="step1"><div class="step-num">1</div> Adicionar apostas</div>
+          <div class="step-arrow">▶</div>
+          <div class="step" id="step2"><div class="step-num">2</div> Revelar resultado</div>
+          <div class="step-arrow">▶</div>
+          <div class="step" id="step3"><div class="step-num">3</div> Nova rodada</div>
         </div>
-        <h3>🐾 Escolha um animal:</h3>
-        <div class="mini-grid" id="miniGrid"></div>
-        <button class="btn-adicionar" onclick="adicionarAposta()">✅ Adicionar aposta</button>
-      </div>
 
-      <div class="apostas-lista">
-        <h3>📝 Apostas da rodada:</h3>
-        <div id="listaApostas"><div class="empty-msg">Nenhuma aposta ainda</div></div>
-      </div>
+        <!-- Formulário aposta -->
+        <div class="section-box" id="formAposta">
+          <h3>➕ Nova Aposta</h3>
+          <div class="input-row">
+            <label>👤 Nome:</label>
+            <input type="text" class="jogo-input" id="nomeJogador" placeholder="Nome do jogador..." maxlength="20">
+          </div>
+          <div class="checkbox-row" onclick="toggleResponsavel()">
+            <input type="checkbox" id="chkResponsavel">
+            <label for="chkResponsavel">👑 Este jogador é o RESPONSÁVEL pelo sorteio</label>
+          </div>
+          <h3 style="margin-top:14px">🐾 Escolha o animal:</h3>
+          <div class="mini-grid" id="miniGrid"></div>
+          <button class="btn btn-verde" onclick="adicionarAposta()">✅ Adicionar aposta</button>
+        </div>
 
-      <button class="btn-revelar" id="btnRevelar" onclick="revelarResultadoApostas()" disabled>
-        🎰 REVELAR RESULTADO!
-      </button>
+        <!-- Lista apostas -->
+        <div class="section-box">
+          <h3>📝 Apostas desta rodada:</h3>
+          <div id="listaApostas"><div class="empty-msg">Nenhuma aposta ainda</div></div>
+          <button class="btn btn-vermelho" id="btnIrSortear" style="margin-top:12px" onclick="irParaSorteio()" disabled>
+            🎰 PRONTO! IR PARA O SORTEIO
+          </button>
+        </div>
 
-      <div class="resultado-apostas" id="resultadoApostas">
-        <h3 id="resApostasTitle">🎊 Resultado!</h3>
-        <div id="resApostasList"></div>
       </div>
     </div>
-  </div>
 
-  <!-- ===== TABELA PANEL ===== -->
-  <div class="panel" id="panel-tabela">
-    <div class="tabela-grid" id="tabelaGrid"></div>
-  </div>
+    <!-- ===== SORTEIO ===== -->
+    <div class="panel" id="panel-sorteio">
+      <div class="sorteio-container">
 
-  <!-- ===== PLACAR PANEL ===== -->
-  <div class="panel" id="panel-placar">
-    <div class="placar-box">
-      <div class="placar-titulo">🏆 Placar de Vitórias</div>
-      <div class="placar-lista" id="placarLista">
-        <div class="empty-msg">Nenhuma vitória ainda. Vamos jogar!</div>
+        <!-- Resumo apostas -->
+        <div class="resumo-box" id="resumoApostas" style="width:100%;max-width:500px">
+          <h3>🐾 Animais apostados nesta rodada:</h3>
+          <div id="resumoLista"></div>
+        </div>
+
+        <div id="avisoResponsavel" class="aviso-responsavel" style="width:100%;max-width:500px;display:none"></div>
+
+        <div>
+          <div class="drum" id="drumEl" onclick="iniciarSorteio()">
+            <div class="drum-inner" id="drumEmoji">🎰</div>
+          </div>
+          <div class="drum-label" style="margin-top:10px">CLIQUE NA URNA PARA SORTEAR!</div>
+        </div>
+
+        <button class="btn btn-amarelo" id="btnSortear" onclick="iniciarSorteio()" style="max-width:360px">
+          🎲 GIRAR A URNA!
+        </button>
+
+        <div class="resultado-box hidden" id="resultadoBox" style="display:none">
+          <span class="resultado-emoji" id="resEmoji">🎰</span>
+          <div class="resultado-nome" id="resNome">—</div>
+          <div class="resultado-grupo" id="resGrupo">—</div>
+          <div class="resultado-numeros" id="resNumeros"></div>
+        </div>
+
+        <div class="resultado-apostas-lista" id="resultadoApostasList" style="display:none">
+          <h3 id="resApostasTitle">🎊 Resultado das apostas!</h3>
+          <div id="resApostasItens"></div>
+        </div>
+
+        <div class="nova-rodada-box" id="novaRodadaBox" style="display:none">
+          <p>Quer jogar de novo? Clique abaixo para iniciar uma nova rodada!</p>
+          <button class="btn btn-verde" onclick="novaRodada()" style="max-width:320px;display:flex;margin:0 auto">
+            🔄 NOVA RODADA
+          </button>
+        </div>
+
       </div>
-      <button class="btn-limpar-placar" onclick="limparPlacar()">🗑️ Zerar placar</button>
     </div>
+
+    <!-- ===== TABELA ===== -->
+    <div class="panel" id="panel-tabela">
+      <div class="tabela-grid" id="tabelaGrid"></div>
+    </div>
+
+    <!-- ===== PLACAR ===== -->
+    <div class="panel" id="panel-placar">
+      <div class="placar-box">
+        <div class="placar-titulo">🏆 Placar de Vitórias</div>
+        <div id="placarLista"><div class="empty-msg">Nenhuma vitória ainda!</div></div>
+        <button class="btn btn-cinza" onclick="limparPlacar()" style="margin-top:14px;margin-left:auto;display:block">
+          🗑️ Zerar placar
+        </button>
+      </div>
+    </div>
+
   </div>
 </main>
 
-<!-- Modal animal detalhes -->
+<!-- Modal animal -->
 <div class="modal-overlay" id="modalOverlay" onclick="fecharModal(event)">
   <div class="modal">
-    <div class="modal-emoji" id="modalEmoji">🐯</div>
-    <h2 id="modalNome">Animal</h2>
-    <p id="modalGrupo">Grupo X</p>
+    <div class="modal-emoji" id="modalEmoji"></div>
+    <h2 id="modalNome"></h2>
+    <p id="modalGrupo"></p>
     <div class="modal-nums" id="modalNums"></div>
-    <button class="btn-fechar-modal" onclick="fecharModal(null, true)">Fechar</button>
+    <button class="btn btn-amarelo" onclick="fecharModal(null,true)" style="max-width:200px;margin:12px auto 0;font-size:1rem;padding:10px 28px">Fechar</button>
   </div>
 </div>
 
 <script>
-// ========== DADOS DO JOGO DO BICHO ==========
+// ========== DADOS ==========
 const ANIMAIS = [
-  { grupo: 1,  nome: 'Avestruz',   emoji: '🦚', numeros: [1, 2, 3, 4] },
-  { grupo: 2,  nome: 'Águia',      emoji: '🦅', numeros: [5, 6, 7, 8] },
-  { grupo: 3,  nome: 'Burro',      emoji: '🫏', numeros: [9, 10, 11, 12] },
-  { grupo: 4,  nome: 'Borboleta',  emoji: '🦋', numeros: [13, 14, 15, 16] },
-  { grupo: 5,  nome: 'Cachorro',   emoji: '🐶', numeros: [17, 18, 19, 20] },
-  { grupo: 6,  nome: 'Cabra',      emoji: '🐐', numeros: [21, 22, 23, 24] },
-  { grupo: 7,  nome: 'Carneiro',   emoji: '🐑', numeros: [25, 26, 27, 28] },
-  { grupo: 8,  nome: 'Camelo',     emoji: '🐪', numeros: [29, 30, 31, 32] },
-  { grupo: 9,  nome: 'Cobra',      emoji: '🐍', numeros: [33, 34, 35, 36] },
-  { grupo: 10, nome: 'Coelho',     emoji: '🐰', numeros: [37, 38, 39, 40] },
-  { grupo: 11, nome: 'Cavalo',     emoji: '🐴', numeros: [41, 42, 43, 44] },
-  { grupo: 12, nome: 'Elefante',   emoji: '🐘', numeros: [45, 46, 47, 48] },
-  { grupo: 13, nome: 'Galo',       emoji: '🐓', numeros: [49, 50, 51, 52] },
-  { grupo: 14, nome: 'Gato',       emoji: '🐱', numeros: [53, 54, 55, 56] },
-  { grupo: 15, nome: 'Jacaré',     emoji: '🐊', numeros: [57, 58, 59, 60] },
-  { grupo: 16, nome: 'Leão',       emoji: '🦁', numeros: [61, 62, 63, 64] },
-  { grupo: 17, nome: 'Macaco',     emoji: '🐵', numeros: [65, 66, 67, 68] },
-  { grupo: 18, nome: 'Porco',      emoji: '🐷', numeros: [69, 70, 71, 72] },
-  { grupo: 19, nome: 'Pavão',      emoji: '🦜', numeros: [73, 74, 75, 76] },
-  { grupo: 20, nome: 'Peru',       emoji: '🦃', numeros: [77, 78, 79, 80] },
-  { grupo: 21, nome: 'Touro',      emoji: '🐂', numeros: [81, 82, 83, 84] },
-  { grupo: 22, nome: 'Tigre',      emoji: '🐯', numeros: [85, 86, 87, 88] },
-  { grupo: 23, nome: 'Urso',       emoji: '🐻', numeros: [89, 90, 91, 92] },
-  { grupo: 24, nome: 'Veado',      emoji: '🦌', numeros: [93, 94, 95, 96] },
-  { grupo: 25, nome: 'Vaca',       emoji: '🐄', numeros: [97, 98, 99, 0] }
+  { grupo:1,  nome:'Avestruz',  emoji:'🦚', numeros:[1,2,3,4] },
+  { grupo:2,  nome:'Águia',     emoji:'🦅', numeros:[5,6,7,8] },
+  { grupo:3,  nome:'Burro',     emoji:'🫏', numeros:[9,10,11,12] },
+  { grupo:4,  nome:'Borboleta', emoji:'🦋', numeros:[13,14,15,16] },
+  { grupo:5,  nome:'Cachorro',  emoji:'🐶', numeros:[17,18,19,20] },
+  { grupo:6,  nome:'Cabra',     emoji:'🐐', numeros:[21,22,23,24] },
+  { grupo:7,  nome:'Carneiro',  emoji:'🐑', numeros:[25,26,27,28] },
+  { grupo:8,  nome:'Camelo',    emoji:'🐪', numeros:[29,30,31,32] },
+  { grupo:9,  nome:'Cobra',     emoji:'🐍', numeros:[33,34,35,36] },
+  { grupo:10, nome:'Coelho',    emoji:'🐰', numeros:[37,38,39,40] },
+  { grupo:11, nome:'Cavalo',    emoji:'🐴', numeros:[41,42,43,44] },
+  { grupo:12, nome:'Elefante',  emoji:'🐘', numeros:[45,46,47,48] },
+  { grupo:13, nome:'Galo',      emoji:'🐓', numeros:[49,50,51,52] },
+  { grupo:14, nome:'Gato',      emoji:'🐱', numeros:[53,54,55,56] },
+  { grupo:15, nome:'Jacaré',    emoji:'🐊', numeros:[57,58,59,60] },
+  { grupo:16, nome:'Leão',      emoji:'🦁', numeros:[61,62,63,64] },
+  { grupo:17, nome:'Macaco',    emoji:'🐵', numeros:[65,66,67,68] },
+  { grupo:18, nome:'Porco',     emoji:'🐷', numeros:[69,70,71,72] },
+  { grupo:19, nome:'Pavão',     emoji:'🦜', numeros:[73,74,75,76] },
+  { grupo:20, nome:'Peru',      emoji:'🦃', numeros:[77,78,79,80] },
+  { grupo:21, nome:'Touro',     emoji:'🐂', numeros:[81,82,83,84] },
+  { grupo:22, nome:'Tigre',     emoji:'🐯', numeros:[85,86,87,88] },
+  { grupo:23, nome:'Urso',      emoji:'🐻', numeros:[89,90,91,92] },
+  { grupo:24, nome:'Veado',     emoji:'🦌', numeros:[93,94,95,96] },
+  { grupo:25, nome:'Vaca',      emoji:'🐄', numeros:[97,98,99,0] }
 ];
 
 // ========== STATE ==========
-let sorteioAtual = null;
-let historico = [];
 let apostas = [];
-let placar = JSON.parse(localStorage.getItem('jb_placar') || '{}');
 let animalSelecionado = null;
 let sorteando = false;
+let jasorteou = false;
+let placar = JSON.parse(localStorage.getItem('jb_placar') || '{}');
+let historico = [];
 
-// ========== INICIALIZAÇÃO ==========
+// ========== INIT ==========
 document.addEventListener('DOMContentLoaded', () => {
-  criarEstrelas();
-  renderizarTabela();
   renderizarMiniGrid();
+  renderizarTabela();
   atualizarPlacar();
 });
 
-function criarEstrelas() {
-  const cont = document.getElementById('stars');
-  for (let i = 0; i < 30; i++) {
-    const s = document.createElement('div');
-    s.className = 'star';
-    s.style.cssText = `
-      width: ${Math.random()*3+1}px;
-      height: ${Math.random()*3+1}px;
-      left: ${Math.random()*100}%;
-      top: ${Math.random()*100}%;
-      animation-duration: ${Math.random()*4+3}s;
-      animation-delay: ${Math.random()*5}s;
-    `;
-    cont.appendChild(s);
-  }
-}
-
 // ========== TABS ==========
-function showPanel(id) {
+function showTab(id, btn) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('panel-' + id).classList.add('active');
-  event.currentTarget.classList.add('active');
+  btn.classList.add('active');
+}
+
+// ========== MINI GRID ==========
+function renderizarMiniGrid() {
+  document.getElementById('miniGrid').innerHTML = ANIMAIS.map(a =>
+    `<div class="mini-card" data-grupo="${a.grupo}" onclick="selecionarAnimal(${a.grupo})">
+      <span>${a.emoji}</span>${a.nome}
+    </div>`
+  ).join('');
+}
+
+function selecionarAnimal(grupo) {
+  animalSelecionado = ANIMAIS.find(a => a.grupo === grupo);
+  document.querySelectorAll('.mini-card').forEach(c => c.classList.remove('selecionado'));
+  document.querySelector(`.mini-card[data-grupo="${grupo}"]`).classList.add('selecionado');
+}
+
+function toggleResponsavel() {
+  const chk = document.getElementById('chkResponsavel');
+  chk.checked = !chk.checked;
+}
+
+// ========== APOSTAS ==========
+function adicionarAposta() {
+  const nome = document.getElementById('nomeJogador').value.trim();
+  const isResponsavel = document.getElementById('chkResponsavel').checked;
+
+  if (!nome) { alert('Digite o nome do jogador! 👤'); return; }
+  if (!animalSelecionado) { alert('Escolha um animal! 🐾'); return; }
+
+  // Verifica se já tem responsável
+  if (isResponsavel && apostas.some(a => a.responsavel)) {
+    alert('Já existe um responsável pelo sorteio! (' + apostas.find(a=>a.responsavel).nome + ')');
+    document.getElementById('chkResponsavel').checked = false;
+    return;
+  }
+
+  // Verifica nome duplicado
+  if (apostas.some(a => a.nome.toLowerCase() === nome.toLowerCase())) {
+    alert('Este jogador já fez sua aposta! Cada pessoa aposta uma vez por rodada. 😊');
+    return;
+  }
+
+  apostas.push({ nome, animal: animalSelecionado, responsavel: isResponsavel });
+
+  // Limpa form
+  document.getElementById('nomeJogador').value = '';
+  document.getElementById('chkResponsavel').checked = false;
+  animalSelecionado = null;
+  document.querySelectorAll('.mini-card').forEach(c => c.classList.remove('selecionado'));
+
+  renderizarApostas();
+  renderizarJogadoresSidebar();
+  document.getElementById('btnIrSortear').disabled = apostas.length === 0;
+}
+
+function removerAposta(idx) {
+  apostas.splice(idx, 1);
+  renderizarApostas();
+  renderizarJogadoresSidebar();
+  document.getElementById('btnIrSortear').disabled = apostas.length === 0;
+}
+
+function renderizarApostas() {
+  const el = document.getElementById('listaApostas');
+  if (apostas.length === 0) {
+    el.innerHTML = '<div class="empty-msg">Nenhuma aposta ainda</div>';
+    return;
+  }
+  el.innerHTML = apostas.map((ap, i) => `
+    <div class="aposta-item">
+      <span style="font-size:1.5rem">${ap.animal.emoji}</span>
+      <span>
+        ${ap.responsavel ? '👑 ' : ''}<strong>${ap.nome}</strong>
+        → <strong>${ap.animal.nome}</strong>
+        ${ap.responsavel ? '<br><small style="color:var(--amarelo);font-size:0.75rem">Responsável pelo sorteio</small>' : ''}
+      </span>
+      <button class="btn-remover" onclick="removerAposta(${i})">✕</button>
+    </div>
+  `).join('');
+}
+
+function renderizarJogadoresSidebar() {
+  const el = document.getElementById('jogadoresLista');
+  if (apostas.length === 0) {
+    el.innerHTML = '<div class="empty-jogadores">Nenhum jogador ainda.<br>Adicione apostas!</div>';
+    return;
+  }
+  el.innerHTML = apostas.map(ap => `
+    <div class="jogador-badge ${ap.responsavel ? 'responsavel' : ''}">
+      ${ap.responsavel ? '<span class="badge-coroa">👑</span>' : '👤'}
+      <span>${ap.nome}</span>
+      <span class="animal-aposta">${ap.animal.emoji}</span>
+    </div>
+  `).join('');
+}
+
+// ========== IR PARA SORTEIO ==========
+function irParaSorteio() {
+  // Muda para aba sorteio
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-sorteio').classList.add('active');
+  document.querySelectorAll('.tab-btn')[1].classList.add('active');
+
+  // Monta resumo
+  renderizarResumo();
+
+  // Aviso responsável
+  const resp = apostas.find(a => a.responsavel);
+  const avisoEl = document.getElementById('avisoResponsavel');
+  if (resp) {
+    avisoEl.style.display = 'block';
+    avisoEl.innerHTML = `👑 <strong>${resp.nome}</strong> é o responsável pelo sorteio!`;
+  } else {
+    avisoEl.style.display = 'none';
+  }
+
+  // Reset resultado
+  document.getElementById('resultadoBox').style.display = 'none';
+  document.getElementById('resultadoApostasList').style.display = 'none';
+  document.getElementById('novaRodadaBox').style.display = 'none';
+  document.getElementById('btnSortear').disabled = false;
+  jasorteou = false;
+}
+
+function renderizarResumo() {
+  // Agrupa por animal
+  const grupos = {};
+  apostas.forEach(ap => {
+    const key = ap.animal.grupo;
+    if (!grupos[key]) grupos[key] = { animal: ap.animal, apostadores: [] };
+    grupos[key].apostadores.push(ap.nome);
+  });
+
+  const el = document.getElementById('resumoLista');
+  el.innerHTML = Object.values(grupos).map(g => `
+    <div class="resumo-animal-item">
+      <span class="resumo-emoji">${g.animal.emoji}</span>
+      <div>
+        <div class="resumo-animal-nome">${g.animal.nome} <small style="color:var(--amarelo);font-size:0.8rem">(Grupo ${String(g.animal.grupo).padStart(2,'0')})</small></div>
+        <div class="resumo-apostadores">Apostou: ${g.apostadores.join(', ')}</div>
+      </div>
+    </div>
+  `).join('');
 }
 
 // ========== SORTEIO ==========
 function iniciarSorteio() {
-  if (sorteando) return;
+  if (sorteando || jasorteou) return;
+  if (apostas.length === 0) { alert('Adicione apostas primeiro!'); return; }
+
   sorteando = true;
   const drum = document.getElementById('drumEl');
   const drumEmoji = document.getElementById('drumEmoji');
-  const btn = document.getElementById('btnSortear');
-  const resBox = document.getElementById('resultadoBox');
+  const btnSortear = document.getElementById('btnSortear');
 
-  btn.disabled = true;
+  btnSortear.disabled = true;
   drum.classList.add('spinning');
-  resBox.classList.remove('revealed');
-  resBox.classList.add('hidden');
 
-  // Embaralha emojis enquanto gira
   let tick = 0;
   const interval = setInterval(() => {
     drumEmoji.textContent = ANIMAIS[Math.floor(Math.random() * ANIMAIS.length)].emoji;
@@ -896,54 +905,87 @@ function iniciarSorteio() {
     clearInterval(interval);
     drum.classList.remove('spinning');
 
-    // Sorteia resultado
     const sorteado = ANIMAIS[Math.floor(Math.random() * ANIMAIS.length)];
-    sorteioAtual = sorteado;
     drumEmoji.textContent = sorteado.emoji;
 
-    // Atualiza resultado
+    // Mostra resultado
+    const resBox = document.getElementById('resultadoBox');
     document.getElementById('resEmoji').textContent = sorteado.emoji;
     document.getElementById('resNome').textContent = sorteado.nome;
     document.getElementById('resGrupo').textContent = `Grupo ${String(sorteado.grupo).padStart(2,'0')}`;
-    const numsEl = document.getElementById('resNumeros');
-    numsEl.innerHTML = sorteado.numeros.map(n =>
+    document.getElementById('resNumeros').innerHTML = sorteado.numeros.map(n =>
       `<span class="num-badge">${String(n).padStart(2,'0')}</span>`
     ).join('');
-
+    resBox.style.display = 'block';
     resBox.classList.remove('hidden');
     resBox.classList.add('revealed');
 
+    // Resultado apostas
+    let algumGanhou = false;
+    const itens = apostas.map(ap => {
+      const ganhou = ap.animal.grupo === sorteado.grupo;
+      if (ganhou) { algumGanhou = true; registrarVitoria(ap.nome); }
+      return `
+        <div class="aposta-resultado-item ${ganhou ? 'ganhou' : 'perdeu'}">
+          <span style="font-size:1.6rem">${ap.animal.emoji}</span>
+          <span>${ap.responsavel ? '👑 ' : ''}<strong>${ap.nome}</strong> — ${ap.animal.nome}</span>
+          <span class="tag-resultado ${ganhou ? 'tag-ganhou' : 'tag-perdeu'}">${ganhou ? '🎊 GANHOU!' : '😔 Perdeu'}</span>
+        </div>
+      `;
+    }).join('');
+
+    document.getElementById('resApostasTitle').innerHTML = `🎰 Sorteado: ${sorteado.emoji} <strong>${sorteado.nome}</strong>`;
+    document.getElementById('resApostasItens').innerHTML = itens;
+    document.getElementById('resultadoApostasList').style.display = 'block';
+
+    if (algumGanhou) { setTimeout(lancarConfetti, 400); atualizarPlacar(); }
+
+    // Destaque tabela
+    document.querySelectorAll('.animal-card').forEach(c => c.classList.remove('destaque'));
+    const card = document.querySelector(`.animal-card[data-grupo="${sorteado.grupo}"]`);
+    if (card) card.classList.add('destaque');
+
     // Histórico
-    adicionarHistorico(sorteado);
+    historico.unshift(sorteado);
+    if (historico.length > 6) historico.pop();
+    document.getElementById('historicoBox').style.display = 'block';
+    document.getElementById('historicoLista').innerHTML = historico.map(a =>
+      `<div class="jogador-badge">${a.emoji} <span>${a.nome}</span></div>`
+    ).join('');
 
-    // Destaque na tabela
-    destacarAnimalTabela(sorteado.grupo);
-
-    btn.disabled = false;
+    document.getElementById('novaRodadaBox').style.display = 'block';
     sorteando = false;
-  }, 2000);
+    jasorteou = true;
+  }, 2200);
 }
 
-function adicionarHistorico(animal) {
-  historico.unshift(animal);
-  if (historico.length > 8) historico.pop();
+// ========== NOVA RODADA ==========
+function novaRodada() {
+  apostas = [];
+  animalSelecionado = null;
+  jasorteou = false;
 
-  const lista = document.getElementById('historicoLista');
-  lista.innerHTML = historico.map(a =>
-    `<div class="hist-item">${a.emoji} <span>${a.nome}</span></div>`
-  ).join('');
-}
+  renderizarApostas();
+  renderizarJogadoresSidebar();
+  document.getElementById('btnIrSortear').disabled = true;
+  document.getElementById('drumEmoji').textContent = '🎰';
+  document.querySelectorAll('.mini-card').forEach(c => c.classList.remove('selecionado'));
 
-function destacarAnimalTabela(grupo) {
-  document.querySelectorAll('.animal-card').forEach(c => c.classList.remove('destaque'));
-  const card = document.querySelector(`.animal-card[data-grupo="${grupo}"]`);
-  if (card) card.classList.add('destaque');
+  // Atualiza steps
+  document.getElementById('step1').className = 'step active';
+  document.getElementById('step2').className = 'step';
+  document.getElementById('step3').className = 'step';
+
+  // Vai para aba apostar
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-apostar').classList.add('active');
+  document.querySelectorAll('.tab-btn')[0].classList.add('active');
 }
 
 // ========== TABELA ==========
 function renderizarTabela() {
-  const grid = document.getElementById('tabelaGrid');
-  grid.innerHTML = ANIMAIS.map(a => `
+  document.getElementById('tabelaGrid').innerHTML = ANIMAIS.map(a => `
     <div class="animal-card" data-grupo="${a.grupo}" onclick="abrirModal(${a.grupo})">
       <span class="card-emoji">${a.emoji}</span>
       <span class="card-grupo">Grupo ${String(a.grupo).padStart(2,'0')}</span>
@@ -964,99 +1006,8 @@ function abrirModal(grupo) {
   ).join('');
   document.getElementById('modalOverlay').classList.add('open');
 }
-
 function fecharModal(e, force) {
-  if (force || e?.target?.id === 'modalOverlay') {
-    document.getElementById('modalOverlay').classList.remove('open');
-  }
-}
-
-// ========== MINI GRID / APOSTAS ==========
-function renderizarMiniGrid() {
-  const grid = document.getElementById('miniGrid');
-  grid.innerHTML = ANIMAIS.map(a => `
-    <div class="mini-card" data-grupo="${a.grupo}" onclick="selecionarAnimal(${a.grupo})">
-      <span>${a.emoji}</span>
-      ${a.nome}
-    </div>
-  `).join('');
-}
-
-function selecionarAnimal(grupo) {
-  animalSelecionado = ANIMAIS.find(a => a.grupo === grupo);
-  document.querySelectorAll('.mini-card').forEach(c => c.classList.remove('selecionado'));
-  document.querySelector(`.mini-card[data-grupo="${grupo}"]`).classList.add('selecionado');
-}
-
-function adicionarAposta() {
-  const nome = document.getElementById('nomeJogador').value.trim() || 'Anônimo';
-  if (!animalSelecionado) {
-    alert('Escolha um animal primeiro! 🐾');
-    return;
-  }
-  apostas.push({ nome, animal: animalSelecionado });
-  animalSelecionado = null;
-  document.querySelectorAll('.mini-card').forEach(c => c.classList.remove('selecionado'));
-  renderizarApostas();
-  document.getElementById('btnRevelar').disabled = false;
-  document.getElementById('resultadoApostas').style.display = 'none';
-}
-
-function removerAposta(idx) {
-  apostas.splice(idx, 1);
-  renderizarApostas();
-  if (apostas.length === 0) {
-    document.getElementById('btnRevelar').disabled = true;
-  }
-}
-
-function renderizarApostas() {
-  const lista = document.getElementById('listaApostas');
-  if (apostas.length === 0) {
-    lista.innerHTML = '<div class="empty-msg">Nenhuma aposta ainda</div>';
-    return;
-  }
-  lista.innerHTML = apostas.map((ap, i) => `
-    <div class="aposta-item">
-      <div class="aposta-animal">
-        <span style="font-size:1.6rem">${ap.animal.emoji}</span>
-        <span><strong>${ap.nome}</strong> aposta em <strong>${ap.animal.nome}</strong></span>
-      </div>
-      <button class="btn-remover" onclick="removerAposta(${i})">✕</button>
-    </div>
-  `).join('');
-}
-
-function revelarResultadoApostas() {
-  // Faz sorteio automático
-  const sorteado = ANIMAIS[Math.floor(Math.random() * ANIMAIS.length)];
-  sorteioAtual = sorteado;
-
-  const resDiv = document.getElementById('resultadoApostas');
-  const title = document.getElementById('resApostasTitle');
-  const list = document.getElementById('resApostasList');
-
-  let algumGanhou = false;
-  const html = apostas.map(ap => {
-    const ganhou = ap.animal.grupo === sorteado.grupo;
-    if (ganhou) { algumGanhou = true; registrarVitoria(ap.nome); }
-    return `
-      <div class="aposta-resultado-item ${ganhou ? 'ganhou' : 'perdeu'}">
-        <span style="font-size:1.8rem">${ap.animal.emoji}</span>
-        <span style="flex:1"><strong>${ap.nome}</strong> — ${ap.animal.nome}</span>
-        <span class="${ganhou ? 'tag-ganhou' : 'tag-perdeu'}">${ganhou ? '🎊 GANHOU!' : '😔 Perdeu'}</span>
-      </div>
-    `;
-  }).join('');
-
-  title.innerHTML = `🎰 Sorteado: ${sorteado.emoji} <strong>${sorteado.nome}</strong> (Grupo ${String(sorteado.grupo).padStart(2,'0')})`;
-  list.innerHTML = html;
-  resDiv.style.display = 'block';
-
-  if (algumGanhou) {
-    setTimeout(() => lancarConfetti(), 300);
-    atualizarPlacar();
-  }
+  if (force || e?.target?.id === 'modalOverlay') document.getElementById('modalOverlay').classList.remove('open');
 }
 
 // ========== PLACAR ==========
@@ -1064,25 +1015,20 @@ function registrarVitoria(nome) {
   placar[nome] = (placar[nome] || 0) + 1;
   localStorage.setItem('jb_placar', JSON.stringify(placar));
 }
-
 function atualizarPlacar() {
-  const lista = document.getElementById('placarLista');
-  const sorted = Object.entries(placar).sort((a, b) => b[1] - a[1]);
-  if (sorted.length === 0) {
-    lista.innerHTML = '<div class="empty-msg">Nenhuma vitória ainda. Vamos jogar!</div>';
-    return;
-  }
-  const medals = ['🥇', '🥈', '🥉'];
-  lista.innerHTML = sorted.map(([nome, wins], i) => `
+  const el = document.getElementById('placarLista');
+  const sorted = Object.entries(placar).sort((a,b) => b[1]-a[1]);
+  if (sorted.length === 0) { el.innerHTML = '<div class="empty-msg">Nenhuma vitória ainda!</div>'; return; }
+  const medals = ['🥇','🥈','🥉'];
+  el.innerHTML = sorted.map(([nome, wins], i) => `
     <div class="placar-item">
-      <span>${medals[i] || '🏅'} ${nome}</span>
-      <span class="placar-wins">${wins} vitória${wins !== 1 ? 's' : ''}</span>
+      <span>${medals[i]||'🏅'} ${nome}</span>
+      <span class="placar-wins">${wins} vitória${wins!==1?'s':''}</span>
     </div>
   `).join('');
 }
-
 function limparPlacar() {
-  if (confirm('Zerar o placar de vitórias? Essa ação não pode ser desfeita!')) {
+  if (confirm('Zerar o placar?')) {
     placar = {};
     localStorage.removeItem('jb_placar');
     atualizarPlacar();
@@ -1093,21 +1039,19 @@ function limparPlacar() {
 function lancarConfetti() {
   const container = document.getElementById('confettiContainer');
   const colors = ['#f5c518','#f07e16','#d93025','#25a050','#1565c0','#6a1b9a','#ffffff'];
-  for (let i = 0; i < 80; i++) {
-    const piece = document.createElement('div');
-    piece.className = 'confetti-piece';
-    piece.style.cssText = `
-      left: ${Math.random() * 100}%;
-      top: -10px;
-      background: ${colors[Math.floor(Math.random() * colors.length)]};
-      width: ${Math.random() * 10 + 6}px;
-      height: ${Math.random() * 10 + 6}px;
-      border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
-      animation-duration: ${Math.random() * 2 + 1.5}s;
-      animation-delay: ${Math.random() * 0.8}s;
+  for (let i = 0; i < 100; i++) {
+    const p = document.createElement('div');
+    p.className = 'confetti-piece';
+    p.style.cssText = `
+      left:${Math.random()*100}%; top:-10px;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      width:${Math.random()*10+6}px; height:${Math.random()*10+6}px;
+      border-radius:${Math.random()>0.5?'50%':'2px'};
+      animation-duration:${Math.random()*2+1.5}s;
+      animation-delay:${Math.random()*0.8}s;
     `;
-    container.appendChild(piece);
-    setTimeout(() => piece.remove(), 4000);
+    container.appendChild(p);
+    setTimeout(() => p.remove(), 4000);
   }
 }
 </script>
